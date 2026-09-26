@@ -1,6 +1,9 @@
 package graduation_project.Dailic.controller;
 
 import graduation_project.Dailic.controller.DTO.AIResponse;
+import graduation_project.Dailic.controller.DTO.AskRequest;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import graduation_project.Dailic.controller.DTO.ApiResponse;
 import graduation_project.Dailic.controller.DTO.ProblemDto;
 import graduation_project.Dailic.service.AIService;
@@ -26,9 +29,9 @@ public class AIController {
     @PostMapping("/ask/{problemId}")
     // 반환 타입을 ApiResponse<AIResponse>로 변경
     public ResponseEntity<ApiResponse<AIResponse>> ask(
-            @PathVariable Long problemId,
-            @RequestParam Long userId,
-            @RequestBody AskRequest request
+            @PathVariable @Positive Long problemId,
+            @RequestParam @Positive Long userId,
+            @Valid @RequestBody AskRequest request
     ) {
         String licenseName = licenseService.getCurrentLicenseSelection(userId)
                 .getLicense()
@@ -52,8 +55,8 @@ public class AIController {
     @PostMapping("/explain/{problemId}")
     // 반환 타입을 ApiResponse<AIResponse>로 변경
     public ResponseEntity<ApiResponse<AIResponse>> explain(
-            @PathVariable Long problemId,
-            @RequestParam Long userId,
+            @PathVariable @Positive Long problemId,
+            @RequestParam @Positive Long userId,
             @RequestParam(defaultValue = "false") boolean includeSolution
     ) {
         String licenseName = licenseService.getCurrentLicenseSelection(userId)
@@ -76,18 +79,4 @@ public class AIController {
         return ResponseEntity.ok(response);
     }
 
-    /**
-     * 🔹 DTO: AskRequest
-     */
-    public static class AskRequest {
-        private String question;
-
-        public String getQuestion() {
-            return question;
-        }
-
-        public void setQuestion(String question) {
-            this.question = question;
-        }
-    }
 }

@@ -32,6 +32,9 @@ spring.jpa.hibernate.ddl-auto=update
 spring.h2.console.enabled=true
 spring.h2.console.path=/h2-console
 
-openai.api.key=YOUR_API_KEY_HERE
-openai.api.url=https://api.openai.com/v1/chat/completions
-openai.model=gpt-3.5-turbo
+openai.key=${OPENAI_API_KEY:}
+openai.url=https://api.openai.com/v1/chat/completions
+openai.model=${OPENAI_MODEL:}
+
+openai.connect-timeout-ms=5000
+openai.read-timeout-ms=30000

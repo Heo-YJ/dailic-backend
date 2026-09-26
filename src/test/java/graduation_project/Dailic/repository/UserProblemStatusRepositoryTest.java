@@ -1,6 +1,7 @@
 package graduation_project.Dailic.repository;
 
 import graduation_project.Dailic.domain.Problem;
+import graduation_project.Dailic.domain.License;
 import graduation_project.Dailic.domain.User;
 import graduation_project.Dailic.domain.UserProblemStatus;
 import jakarta.persistence.EntityManager;
@@ -36,12 +37,17 @@ public class UserProblemStatusRepositoryTest {
         user.setUsername("yejin");
         userRepository.save(user);
 
+        License license = new License(null, "SQLD");
+        em.persist(license);
+
         Problem problem1 = new Problem();
         problem1.setQuestionText("문제1");
+        problem1.setLicense(license);
         problemRepository.save(problem1);
 
         Problem problem2 = new Problem();
         problem2.setQuestionText("문제2");
+        problem2.setLicense(license);
         problemRepository.save(problem2);
 
         UserProblemStatus status1 = UserProblemStatus.builder()

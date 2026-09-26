@@ -3,6 +3,7 @@ package graduation_project.Dailic.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import graduation_project.Dailic.controller.DTO.LicenseSelectionRequestDto;
 import graduation_project.Dailic.domain.LicenseSelection;
+import graduation_project.Dailic.domain.License;
 import graduation_project.Dailic.domain.Occupation;
 import graduation_project.Dailic.domain.User;
 import graduation_project.Dailic.service.LicenseService;
@@ -51,10 +52,10 @@ public class LicenseControllerTest {
         LicenseSelection mockSelection = LicenseSelection.builder()
                 .user(mockUser)
                 .occupation(Occupation.COMMON)
-                .license("정보처리기사")
+                .license(new License(1L, "정보처리기사"))
                 .build();
 
-        Mockito.when(userService.getUserById(userId)).thenReturn(mockUser);
+        Mockito.when(userService.getCreateUser(userId)).thenReturn(mockUser);
         Mockito.when(licenseService.register(Mockito.any(), Mockito.any(), Mockito.any()))
                 .thenReturn(mockSelection);
 
@@ -64,10 +65,10 @@ public class LicenseControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDto)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.userId").value(1))
-                .andExpect(jsonPath("$.occupation").value("Backend Developer"))
-                .andExpect(jsonPath("$.license").value("정보처리기사"))
-                .andExpect(jsonPath("$.status").value("SELECTED"))
+                .andExpect(jsonPath("$.data.userId").value(1))
+                .andExpect(jsonPath("$.data.occupation").value("COMMON"))
+                .andExpect(jsonPath("$.data.license").value("정보처리기사"))
+                .andExpect(jsonPath("$.status").value(200))
                 .andExpect(jsonPath("$.message").value("학습 자격증이 설정되었습니다."));
     }
 
